@@ -1,0 +1,131 @@
+{
+    "segments": {
+      "header": [
+        {
+          "fields": [
+            {
+              "name": "magic_word",
+              "value": "test"
+            },
+            {
+              "name": "version",
+              "value": "00123"
+            },
+            {
+              "name": "segment_count",
+              "value": 5
+            }
+          ],
+          "empty": false
+        }
+      ],
+      "segment": [
+        {
+          "fields": [
+            {
+              "name": "id",
+              "value": 1
+            },
+            {
+              "name": "path",
+              "value": "/img/img_1.tga"
+            },
+            {
+              "name": "scale_x",
+              "value": 0.15
+            },
+            {
+              "name": "scale_y",
+              "value": 0.15
+            }
+          ],
+          "empty": false
+        },
+        {
+          "fields": [
+            {
+              "name": "id",
+              "value": 2
+            },
+            {
+              "name": "path",
+              "value": "/img/img_2.tga"
+            },
+            {
+              "name": "scale_x",
+              "value": 0.25
+            },
+            {
+              "name": "scale_y",
+              "value": 0.25
+            }
+          ],
+          "empty": false
+        },
+        {
+          "fields": [
+            {
+              "name": "id",
+              "value": 3
+            },
+            {
+              "name": "path",
+              "value": "/img/img_3.tga"
+            },
+            {
+              "name": "scale_x",
+              "value": 0.35
+            },
+            {
+              "name": "scale_y",
+              "value": 0.35
+            }
+          ],
+          "empty": false
+        },
+        {
+          "fields": [
+            {
+              "name": "id",
+              "value": 4
+            },
+            {
+              "name": "path",
+              "value": "/img/img_4.tga"
+            },
+            {
+              "name": "scale_x",
+              "value": 0.45
+            },
+            {
+              "name": "scale_y",
+              "value": 0.45
+            }
+          ],
+          "empty": false
+        },
+        {
+          "fields": [
+            {
+              "name": "id",
+              "value": 5
+            },
+            {
+              "name": "path",
+              "value": "/img/img_5.tga"
+            },
+            {
+              "name": "scale_x",
+              "value": 0.55
+            },
+            {
+              "name": "scale_y",
+              "value": 0.55
+            }
+          ],
+          "empty": false
+        }
+      ]
+    },
+    "empty": false
+  }
