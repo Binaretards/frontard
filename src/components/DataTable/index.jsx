@@ -1,224 +1,170 @@
-import React, { Component } from 'react';
-import {Table, Button} from 'reactstrap'
+import React, { Component } from 'react'
+import { Table, Button, Alert } from 'reactstrap'
 import _ from 'lodash'
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 const data = {
-    "segments": {
-      "header": [
-        {
-          "fields": [
-            {
-              "name": "magic_word",
-              "value": "test"
-            },
-            {
-              "name": "version",
-              "value": "00123"
-            },
-            {
-              "name": "segment_count",
-              "value": 5
-            }
-          ],
-          "empty": false
+  "tableName": {
+    "rows": [
+      {
+        "_guid": "d708ea20-96ed-412b-82f1-43a177fbeeca",
+        "fields": {
+          "id": 1,
+          "path": "/img/img_1.tga",
+          "scale_x": 0.25,
+          "scale_y": 0.25
         }
-      ],
-      "segment": [
-        {
-          "fields": [
-            {
-              "name": "id",
-              "value": 1
-            },
-            {
-              "name": "path",
-              "value": "/img/img_1.tga"
-            },
-            {
-              "name": "scale_x",
-              "value": 0.15
-            },
-            {
-              "name": "scale_y",
-              "value": 0.15
-            }
-          ],
-          "empty": false
-        },
-        {
-          "fields": [
-            {
-              "name": "id",
-              "value": 2
-            },
-            {
-              "name": "path",
-              "value": "/img/img_2.tga"
-            },
-            {
-              "name": "scale_x",
-              "value": 0.25
-            },
-            {
-              "name": "scale_y",
-              "value": 0.25
-            }
-          ],
-          "empty": false
-        },
-        {
-          "fields": [
-            {
-              "name": "id",
-              "value": 3
-            },
-            {
-              "name": "path",
-              "value": "/img/img_3.tga"
-            },
-            {
-              "name": "scale_x",
-              "value": 0.35
-            },
-            {
-              "name": "scale_y",
-              "value": 0.35
-            }
-          ],
-          "empty": false
-        },
-        {
-          "fields": [
-            {
-              "name": "id",
-              "value": 4
-            },
-            {
-              "name": "path",
-              "value": "/img/img_4.tga"
-            },
-            {
-              "name": "scale_x",
-              "value": 0.45
-            },
-            {
-              "name": "scale_y",
-              "value": 0.45
-            }
-          ],
-          "empty": false
-        },
-        {
-          "fields": [
-            {
-              "name": "id",
-              "value": 5
-            },
-            {
-              "name": "path",
-              "value": "/img/img_5.tga"
-            },
-            {
-              "name": "scale_x",
-              "value": 0.55
-            },
-            {
-              "name": "scale_y",
-              "value": 0.55
-            }
-          ],
-          "empty": false
+      },
+      {
+        "_guid": "d708ea20-96ed-412b-82f1-43a177fbeecb",
+        "fields": {
+          "id": 2,
+          "path": "/img/img_1111.tga",
+          "scale_x": 0.225,
+          "scale_y": 0.255
         }
-      ]
-    },
-    "empty": false
+      },
+      {
+        "_guid": "d708ea20-96ed-412b-82f1-43a177fbeecс",
+        "fields": {
+          "id": 555,
+          "path": "/шьтфу",
+          "scale_x": 0.322,
+          "scale_y": 2.255
+        }
+      },
+    ]
+  },
+  "table2": {
+    "rows": [
+      {
+        "_guid": "d708ea20-96ed-412b-82f1-43a177fbeeca",
+        "fields": {
+          "privet": 1,
+          "put": "/img/img_2.tga",
+          "scally": 0.25,
+          "mauldar": 0.25
+        }
+      },
+    ]
+  }
+}
+
+class TableList extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      data: [],
+      loaded: false,
+      activeTab: Object.keys(data)[0]
+    }
   }
 
-class DataTable extends Component {
-  state = {
-    data: [],
-    loaded: false,
-   }
   componentDidMount() {
-    console.log('cdm')
-    let newData = data.segments.segment.map(segment => {
-      let row = {}
-      segment.fields.map(field => {
-        row[field.name] = field.value
-        return null
-      })
-      return row
-    })
-    this.setState({data:newData,loaded:true})
+    this.setState({ data, loaded: true })
   }
-  renderTable = () => {
-    console.log('rt')
+
+  showTabs = (table) => {
+    const tables = Object.keys(data)
+    return tables.map((item, i) => {
+      console.log(item)
+      let activeProperty = item === this.state.activeTab ? { active: true } : {}
+      return (
+        <Button color="info" onClick={() => this.setState({ activeTab: item })} {...activeProperty} key={i}>
+          {item}
+        </Button>
+      )
+    })
+  }
+
+  showActiveTab = () => {
+    let activeTab = this.state.activeTab
+    let tableData = this.state.data[activeTab].rows
+
     return (
-      <Table>
+      this.renderTable(activeTab, tableData)
+    )
+  }
+
+  renderTable = (tableName, tableData) => {
+    console.log(tableData)
+    if(!tableData || !tableData.length){
+      return (
+        <Alert>
+          Нет данных
+        </Alert>
+      )
+    }
+    let header = Object.keys(tableData[0].fields)
+
+    return (
+      <Table bordered>
+        <thead>
+          <tr>
+            {header.map((item, index) => {
+              return (
+                <th key={index}>{item}</th>
+              )
+            })}
+            <th></th>
+          </tr>
+        </thead>
         <tbody>
-          {this.state.data.map(segment => {
-            return this.renderRow(segment)
+          {tableData.map(item => {
+            return (
+              <tr key={item._guid}>
+                {Object.keys(item.fields).map((key, i) => {
+                  let field = item.fields[key]
+                  return (
+                    <td key={i}>
+                      <input className="form-control" type="text" value={field}
+                      onChange={(event) => {this.onInputChange(tableName, item._guid, key, event.target.value)}}>
+                      </input>
+                    </td>
+                  )
+                })}
+                 <td><Button onClick={() => this.onRowDelete(tableName, item._guid)} outline>X</Button></td>
+              </tr>
+            )
           })}
         </tbody>
       </Table>
-      
     )
   }
-  renderRow = (fields) => {
-    let rowId = fields.id
-    return (
-      <tr key={rowId}>
-        {Object.keys(fields).map(field => {
-          return this.renderField(rowId, field, fields[field])
-        })}
-      </tr>
-    )
+
+  onRowDelete = (tableName, rowId) => {
+    let stateData = _.cloneDeep(this.state.data)
+    let rows = stateData[tableName].rows.filter(item => item._guid !== rowId)
+    stateData[tableName].rows = rows
+    this.setState({data: stateData})
   }
-  renderField = (rowId, name, value) => {
-    return (
-      <td key={name}>
-        <input className="form-control" type="text" value={value} 
-          onChange={(event) => {this.onInputChange(rowId, name, event.target.value)}} />
-          
-      </td>
-    )
-  }
-  onInputChange = (rowId, name, value) => {
-    console.log('oninputchange', rowId, name, value)
-    let data = _.cloneDeep(this.state.data)
-    let index = _.findIndex(data, {id:rowId})
-    console.log(index)
+
+  onInputChange = (tableName, rowId, fieldName, value) => {
+    console.log('oninputchange', tableName, rowId, fieldName, value)
+    let stateData = _.cloneDeep(this.state.data)
+    let rows = stateData[tableName].rows
+    let index = _.findIndex(rows, {_guid: rowId})
     if(~index){
-      data[index][name] = value
+      rows[index].fields[fieldName] = value
     }
-    this.setState({data})
+    stateData.rows = rows
+    this.setState({data: stateData})
   }
-  onSaveClick = () => {
-    // let resultData = _.cloneDeep(data)
-    // resultData.segments.segment = resultData.segments.segment.map(segment => {
-    //   let rowId = segment.fields[0]
-    //   let fields = segment.fields.map(field => {
-    //     let index = _.findIndex(this.state.data, {id})
-    //     field.name = null
-    //     field.value = null
-    //   })
-    //   segment.fields = fields
-    //   return segment
-    // })
-    
-    console.log(JSON.stringify(this.state.data))
-  }
-  render() { 
-    console.log(this.state)
+
+  render() {
     if (!this.state.loaded) {
       return null
     }
-    return ( 
-      <React.Fragment>
-        {this.renderTable()}
-        <Button onClick={this.onSaveClick} color="danger">save</Button>
-      </React.Fragment>
-     );
+    console.log(this)
+    return (
+      <div>
+        {this.showTabs()}
+        {this.showActiveTab()}
+      </div>
+    )
   }
+
 }
- 
-export default DataTable;
+
+export default TableList
