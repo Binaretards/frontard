@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const data = {
   "tableName": [
       {
-        "_guid": "d708ea20-96ed-412b-82f1-43a177fbeeca",
+        "uuid": "d708ea20-96ed-412b-82f1-43a177fbeeca",
         "fields": {
           "id": 1,
           "path": "/img/img_1.tga",
@@ -15,7 +15,7 @@ const data = {
         }
       },
       {
-        "_guid": "d708ea20-96ed-412b-82f1-43a177fbeecb",
+        "uuid": "d708ea20-96ed-412b-82f1-43a177fbeecb",
         "fields": {
           "id": 2,
           "path": "/img/img_1111.tga",
@@ -24,7 +24,7 @@ const data = {
         }
       },
       {
-        "_guid": "d708ea20-96ed-412b-82f1-43a177fbeecс",
+        "uuid": "d708ea20-96ed-412b-82f1-43a177fbeecс",
         "fields": {
           "id": 555,
           "path": "/шьтфу",
@@ -35,7 +35,7 @@ const data = {
     ],
   "table2": [
       {
-        "_guid": "d708ea20-96ed-412b-82f1-43a177fbeeca",
+        "uuid": "d708ea20-96ed-412b-82f1-43a177fbeeca",
         "fields": {
           "privet": 1,
           "put": "/img/img_2.tga",
@@ -109,18 +109,18 @@ class TableList extends Component {
         <tbody>
           {tableData.map(item => {
             return (
-              <tr key={item._guid}>
+              <tr key={item.uuid}>
                 {Object.keys(item.fields).map((key, i) => {
                   let field = item.fields[key]
                   return (
                     <td key={i}>
                       <input className="form-control" type="text" value={field}
-                      onChange={(event) => {this.onInputChange(tableName, item._guid, key, event.target.value)}}>
+                      onChange={(event) => {this.onInputChange(tableName, item.uuid, key, event.target.value)}}>
                       </input>
                     </td>
                   )
                 })}
-                 <td><Button onClick={() => this.onRowDelete(tableName, item._guid)} outline>X</Button></td>
+                 <td><Button onClick={() => this.onRowDelete(tableName, item.uuid)} outline>X</Button></td>
               </tr>
             )
           })}
@@ -131,7 +131,7 @@ class TableList extends Component {
 
   onRowDelete = (tableName, rowId) => {
     let stateData = _.cloneDeep(this.state.data)
-    let rows = stateData[tableName].filter(item => item._guid !== rowId)
+    let rows = stateData[tableName].filter(item => item.uuid !== rowId)
     stateData[tableName] = rows
     this.setState({data: stateData})
   }
@@ -140,7 +140,7 @@ class TableList extends Component {
     console.log('oninputchange', tableName, rowId, fieldName, value)
     let stateData = _.cloneDeep(this.state.data)
     let rows = stateData[tableName]
-    let index = _.findIndex(rows, {_guid: rowId})
+    let index = _.findIndex(rows, {uuid: rowId})
     if(~index){
       rows[index].fields[fieldName] = value
     }
