@@ -4,8 +4,7 @@ import _ from 'lodash'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const data = {
-  "tableName": {
-    "rows": [
+  "tableName": [
       {
         "_guid": "d708ea20-96ed-412b-82f1-43a177fbeeca",
         "fields": {
@@ -33,10 +32,8 @@ const data = {
           "scale_y": 2.255
         }
       },
-    ]
-  },
-  "table2": {
-    "rows": [
+    ],
+  "table2": [
       {
         "_guid": "d708ea20-96ed-412b-82f1-43a177fbeeca",
         "fields": {
@@ -47,7 +44,6 @@ const data = {
         }
       },
     ]
-  }
 }
 
 class TableList extends Component {
@@ -80,7 +76,7 @@ class TableList extends Component {
 
   showActiveTab = () => {
     let activeTab = this.state.activeTab
-    let tableData = this.state.data[activeTab].rows
+    let tableData = this.state.data[activeTab]
 
     return (
       this.renderTable(activeTab, tableData)
@@ -135,20 +131,20 @@ class TableList extends Component {
 
   onRowDelete = (tableName, rowId) => {
     let stateData = _.cloneDeep(this.state.data)
-    let rows = stateData[tableName].rows.filter(item => item._guid !== rowId)
-    stateData[tableName].rows = rows
+    let rows = stateData[tableName].filter(item => item._guid !== rowId)
+    stateData[tableName] = rows
     this.setState({data: stateData})
   }
 
   onInputChange = (tableName, rowId, fieldName, value) => {
     console.log('oninputchange', tableName, rowId, fieldName, value)
     let stateData = _.cloneDeep(this.state.data)
-    let rows = stateData[tableName].rows
+    let rows = stateData[tableName]
     let index = _.findIndex(rows, {_guid: rowId})
     if(~index){
       rows[index].fields[fieldName] = value
     }
-    stateData.rows = rows
+    stateData = rows
     this.setState({data: stateData})
   }
 
